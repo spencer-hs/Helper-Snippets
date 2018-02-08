@@ -1,0 +1,92 @@
+mport sys
+import xlrd
+
+
+
+#if len(sys.argv) <5:
+ #   print("Usage: python %s requires input excel workbooks, end cell #, and sheet name from data book" % (sys.argv[0]))
+  #  sys.exit() #Prints reminder to user if parameters are missing
+
+print(sys.argv[1]) #Data workbook
+print(sys.argv[2]) #Sheet name with columns
+
+def List_Puller(excel, sheet):
+    data_book=xlrd.open_workbook(excel)
+
+    Algynomics=[]
+    PainNetwork=[]
+    PainGeneDB=[]
+    HumanPainGeneDB=[]
+    All=[]
+
+    sheet1=data_book.sheet_by_name(sheet)
+    Algy=sheet1.col_values(1)
+    PainNB=sheet1.col_values(2)
+    PGDB=sheet1.col_values(3)
+    HPGDB=sheet1.col_values(4)
+    All_Genes=sheet1.col_values(5)
+
+    for value in Algy:
+        Algynomics.append(value)
+    del Algynomics[0]
+
+    for value in PainNB:
+        PainNetwork.append(value)
+    del PainNetwork[0]
+
+    for value in PGDB:
+        PainGeneDB.append(value)
+    del PainGeneDB[0]
+
+    for value in HPGDB:
+        HumanPainGeneDB.append(value)
+    del HumanPainGeneDB[0]
+
+    for value in All_Genes:
+        All.append(value)
+    del All[0]
+
+    return Algynomics, PainNetwork, PainGeneDB, HumanPainGeneDB, All
+
+#print(Algynomics) #excel pull double check
+#print(PainNetwork)
+#print(PainGeneDB)
+#print(HumanPainGeneDB)
+
+def Proof(passed_tuple):
+    a,b,c,d,e=passed_tuple
+    all4=[]
+    atleasttwo=[]
+    for gene in e:
+        if gene in a and b and c and d:
+            gene_count=4
+            all4.append(gene)
+
+        if gene in a and gene in b :
+            atleasttwo.append(gene)
+        if gene in a and gene in c:
+            atleasttwo.append(gene)
+        if gene in a and gene in d:
+            atleasttwo.append(gene)
+        if gene in b and gene in c:
+            atleasttwo.append(gene)
+        if gene in b and gene in d:
+            atleasttwo.append(gene)
+        if gene in c and gene in d:
+            atleasttwo.append(gene)
+    print(set(atleasttwo))
+
+
+
+
+    #count_dict=dict(zip(gene,gene_count))
+
+
+def main():
+    file=sys.argv[1]
+    sheet_name=sys.argv[2]
+    LP=List_Puller(file, sheet_name)
+
+    Proof(LP)
+
+main()
