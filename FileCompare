@@ -1,0 +1,201 @@
+# -*- coding: utf-8 -*-
+
+ 
+
+import os
+
+import datacompy
+
+import pandas as pd
+
+ 
+
+ 
+
+ftype='sas'
+
+file1=file2=
+
+ 
+
+ 
+
+'''IF EXCEL FILE FILL OUT BELOW'''
+
+ 
+
+s1='Sheet1' #(sheet being compared)
+
+s2='Sheet1' #(sheet being compared)
+
+ 
+
+#-------------------------------------COMPARES VIA SET
+
+ 
+
+def csv_file_comp(f1,f2,filetype):
+
+    if filetype.lower()=='csv':
+
+        df1=pd.read_csv(f1)
+
+        df2=pd.read_csv(f2)
+
+       
+
+        diff1=df1[df1!=df2]
+
+        diff2=df2[df2!=df1]
+
+        if list(df1.columns.values)==list(df2.columns.values):
+
+            diff1.to_csv(os.path.join(os.getcwd(),r'FileDifferences1.csv'),index=None, header=df1.columns.values)
+
+            diff2.to_csv(os.path.join(os.getcwd(), r'FileDifferences2.csv'),index=None, header=df1.columns.values)
+
+        print("Sucessfully compared files")   
+
+        
+
+    else: print("Enter CSV to compare files (case insensitive)")
+
+ 
+
+ 
+
+def excel_file_comp(f1,f2,filetype,s1,s2):
+
+    if filetype.lower()=='excel' or 'xlsx':
+
+        df1=pd.read_excel(f1,sheet_name=s1)
+
+        df2=pd.read_excel(f2,sheet_name=s2)
+
+       
+
+        diff1=df1[df1!=df2]
+
+        diff2=df2[df2!=df1]
+
+        if list(df1.columns.values)==list(df2.columns.values):
+
+            diff1.to_excel(os.path.join(os.getcwd(), r'FileDifferences1.xlsx'), header=df1.columns.values)
+
+            diff2.to_excel(os.path.join(os.getcwd(), r'FileDifferences2.xlsx'), header=df1.columns.values)
+
+        print("Sucessfully compared files")  
+
+    
+
+    else: print("Enter Excel or Xlsx to compare files (case insensitive)")
+
+   
+
+    
+
+def sas7bdat_file_comp(f1,f2,filetype):
+
+    if filetype.lower()=='sas7bdat' or 'sas':
+
+        df1=pd.read_sas(f1)
+
+        df2=pd.read_sas(f2)
+
+        diff1=df1[df1!=df2]
+
+        diff2=df2[df2!=df1]
+
+       
+
+        if list(df1.columns.values)==list(df2.columns.values):
+
+            diff1.to_csv(os.path.join(os.getcwd(),r'FileDifferences1.csv'),index=None, header=df1.columns.values)
+
+            diff2.to_csv(os.path.join(os.getcwd(), r'FileDifferences2.csv'),index=None, header=df1.columns.values)
+
+        print("Sucessfully compared files")
+
+    else: print("Enter sas to compare files (case insensitive)")
+
+       
+
+ 
+
+##------------------------------WRITES A SUMMARY COMPARISON REPORT
+
+ 
+
+def DataCompPyReporter(f1,f2,filetype): #If File Type is Excel Enter s1,s2 as parameters
+
+    if filetype.lower()=='csv':
+
+        df1=pd.read_csv(f1)
+
+        df2=pd.read_csv(f2)
+
+ 
+
+        if list(df1.columns.values)==list(df2.columns.values):
+
+            compare=datacompy.Compare(df1,df2,join_columns=list(df1.columns.values))
+
+ 
+
+        print(compare.report())
+
+ 
+
+ 
+
+       
+
+        print(compare.report())
+
+    elif filetype.lower()=='sas7bdat' or 'sas':
+
+        df1=pd.read_sas(f1)
+
+        df2=pd.read_sas(f2)
+
+       
+
+        if list(df1.columns.values)==list(df2.columns.values):
+
+            compare=datacompy.Compare(df1,df2,join_columns=list(df1.columns.values))
+
+        print(compare.report())
+
+       
+
+def main():  
+
+    if ftype =='csv':
+
+        csv_file_comp(file1,file2,ftype)
+
+        DataCompPyReporter(file1,file2,ftype)
+
+    elif ftype == 'sas':
+
+        sas7bdat_file_comp(file1,file2,ftype)
+
+        DataCompPyReporter(file1,file2,ftype)
+
+    elif ftype =='xlsx':
+
+        excel_file_comp(file1,file2,ftype,s1,s2) #add sheets as needed
+
+        DataCompPyReporter(file1,file2,ftype)
+
+ 
+
+    else:
+
+        print("Please enter a filetype")
+
+   
+
+if __name__ == '__main__':
+
+    main()
