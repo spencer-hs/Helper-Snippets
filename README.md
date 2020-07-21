@@ -1,4 +1,4 @@
-# Python Helper Snippets
+# Helper Snippets
 
 
 All of the following are snippets used to perform useful data tasks
@@ -11,7 +11,7 @@ All of the following are snippets used to perform useful data tasks
   - Stripping Characters with regex (character_remover_python)
 
 
-*All of the following snippets require Pandas.
+*All of the following python programs snippets require Pandas.
 
 ### ConvertBusinessDays
 Creation of Custom Business Day class. Allows calling as a instance as MyCalendar() to calculate a Custom Business Day Offest according to desired calendars. The Holidays above are only those observed for a project I was working on. Very easy to adapt for the pandas USFederalCalendar or any user desired Holidays. Just import the required holiday on line 4, or create a custom holiday like on line 8. The nearest_workday observed is an awesomed function included in the holiday package. 
